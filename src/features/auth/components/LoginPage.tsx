@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { LanguageToggle } from '@/components/ui/language-toggle';
 
 export function LoginPage() {
-  const [adminCode, setAdminCode] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +22,17 @@ export function LoginPage() {
     setIsLoading(true);
     
     try {
+      // For demo purposes, we'll map email to admin codes
+      let adminCode = '';
+      if (email === 'state@admin.gov') adminCode = 's001';
+      else if (email === 'district1@admin.gov') adminCode = 'd1';
+      else if (email === 'district2@admin.gov') adminCode = 'd2';
+      else if (email === 'mandal1@admin.gov') adminCode = 'd1m1';
+      else if (email === 'mandal2@admin.gov') adminCode = 'd2m2';
+      else {
+        throw new Error('Invalid email address');
+      }
+      
       await login(adminCode, password);
     } catch (error) {
       console.error('Login failed:', error);
@@ -53,38 +64,38 @@ export function LoginPage() {
               <Shield className="h-8 w-8 text-white" />
             </motion.div>
             <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              {t('login.title')}
+              Government Admin Portal
             </CardTitle>
             <p className="text-muted-foreground mt-2">
-              {t('login.subtitle')}
+              Smart Civic Intelligence System
             </p>
           </CardHeader>
           
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="adminCode">{t('login.adminCode')}</Label>
+                <Label htmlFor="email">Email Address</Label>
                 <Input
-                  id="adminCode"
-                  type="text"
-                  placeholder={t('login.adminCodePlaceholder')}
-                  value={adminCode}
-                  onChange={(e) => setAdminCode(e.target.value)}
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="h-12"
                   required
                 />
                 <p className="text-xs text-muted-foreground">
-                  {t('login.codeHint')}
+                  Use demo emails: state@admin.gov, district1@admin.gov, mandal1@admin.gov
                 </p>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password">{t('login.password')}</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder={t('login.passwordPlaceholder')}
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="h-12 pr-10"
@@ -120,18 +131,18 @@ export function LoginPage() {
                 ) : (
                   <>
                     <LogIn className="h-4 w-4 mr-2" />
-                    {t('login.signIn')}
+                    Sign In
                   </>
                 )}
               </Button>
             </form>
             
             <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-              <h4 className="font-medium text-sm mb-2">{t('login.demoAccounts')}</h4>
+              <h4 className="font-medium text-sm mb-2">Demo Accounts</h4>
               <div className="text-xs space-y-1 text-muted-foreground">
-                <div>State: <code className="bg-white dark:bg-gray-800 px-1 rounded">s001</code></div>
-                <div>District: <code className="bg-white dark:bg-gray-800 px-1 rounded">d1</code>, <code className="bg-white dark:bg-gray-800 px-1 rounded">d2</code></div>
-                <div>Mandal: <code className="bg-white dark:bg-gray-800 px-1 rounded">d1m1</code>, <code className="bg-white dark:bg-gray-800 px-1 rounded">d2m2</code></div>
+                <div>State Admin: <code className="bg-white dark:bg-gray-800 px-1 rounded">state@admin.gov</code></div>
+                <div>District Admin: <code className="bg-white dark:bg-gray-800 px-1 rounded">district1@admin.gov</code>, <code className="bg-white dark:bg-gray-800 px-1 rounded">district2@admin.gov</code></div>
+                <div>Mandal Admin: <code className="bg-white dark:bg-gray-800 px-1 rounded">mandal1@admin.gov</code>, <code className="bg-white dark:bg-gray-800 px-1 rounded">mandal2@admin.gov</code></div>
                 <div className="mt-2">Password: <code className="bg-white dark:bg-gray-800 px-1 rounded">admin123</code></div>
               </div>
             </div>

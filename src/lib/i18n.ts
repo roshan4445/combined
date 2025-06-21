@@ -19,12 +19,12 @@ const resources = {
       login: {
         title: 'Government Admin Portal',
         subtitle: 'Smart Civic Intelligence System',
-        adminCode: 'Admin Code',
-        adminCodePlaceholder: 'Enter your admin code',
+        email: 'Email Address',
+        emailPlaceholder: 'Enter your email address',
         password: 'Password',
         passwordPlaceholder: 'Enter your password',
         signIn: 'Sign In',
-        codeHint: 'Use demo codes: s001, d1, d2, d1m1, d2m2',
+        emailHint: 'Use demo emails: state@admin.gov, district1@admin.gov, mandal1@admin.gov',
         demoAccounts: 'Demo Accounts'
       },
       // Dashboard
@@ -85,12 +85,12 @@ const resources = {
       login: {
         title: 'सरकारी प्रशासन पोर्टल',
         subtitle: 'स्मार्ट नागरिक बुद्धिमत्ता प्रणाली',
-        adminCode: 'प्रशासन कोड',
-        adminCodePlaceholder: 'अपना प्रशासन कोड दर्ज करें',
+        email: 'ईमेल पता',
+        emailPlaceholder: 'अपना ईमेल पता दर्ज करें',
         password: 'पासवर्ड',
         passwordPlaceholder: 'अपना पासवर्ड दर्ज करें',
         signIn: 'साइन इन',
-        codeHint: 'डेमो कोड का उपयोग करें: s001, d1, d2, d1m1, d2m2',
+        emailHint: 'डेमो ईमेल का उपयोग करें: state@admin.gov, district1@admin.gov, mandal1@admin.gov',
         demoAccounts: 'डेमो खाते'
       },
       dashboard: {

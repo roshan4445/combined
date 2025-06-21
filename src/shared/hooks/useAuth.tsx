@@ -28,23 +28,51 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
-  const login = async (code: string, password: string) => {
+  const login = async (codeOrEmail: string, password: string) => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    if (validateAdminCode(code) && password === DEFAULT_PASSWORD) {
-      const token = `token_${code}_${Date.now()}`;
+    // For the new email-based login, we need to handle both admin codes and emails
+    let adminCodeToUse = codeOrEmail;
+    
+    // If it's an email, map it to the corresponding admin code
+    if (codeOrEmail.includes('@')) {
+      const emailToCodeMap: { [key: string]: string } = {
+        'state@admin.gov': 's001',
+        'district1@admin.gov': 'd1',
+        'district2@admin.gov': 'd2',
+        'district3@admin.gov': 'd3',
+        'district4@admin.gov': 'd4',
+        'mandal1@admin.gov': 'd1m1',
+        'mandal2@admin.gov': 'd1m2',
+        'mandal3@admin.gov': 'd2m1',
+        'mandal4@admin.gov': 'd2m2'
+      };
+      
+      adminCodeToUse = emailToCodeMap[codeOrEmail];
+      if (!adminCodeToUse) {
+        toast({
+          title: "Login Failed",
+          description: "Invalid email address. Please use a valid admin email.",
+          variant: "destructive",
+        });
+        throw new Error('Invalid email address');
+      }
+    }
+    
+    if (validateAdminCode(adminCodeToUse) && password === DEFAULT_PASSWORD) {
+      const token = `token_${adminCodeToUse}_${Date.now()}`;
       
       Cookies.set('authToken', token, { expires: 1 });
-      Cookies.set('adminCode', code, { expires: 1 });
+      Cookies.set('adminCode', adminCodeToUse, { expires: 1 });
       
       setIsAuthenticated(true);
-      setAdminCode(code);
-      setUserRole(determineUserRole(code));
+      setAdminCode(adminCodeToUse);
+      setUserRole(determineUserRole(adminCodeToUse));
       
       toast({
         title: "Login Successful",
-        description: `Welcome, ${code.toUpperCase()} Admin!`,
+        description: `Welcome, ${adminCodeToUse.toUpperCase()} Admin!`,
       });
     } else {
       toast({
